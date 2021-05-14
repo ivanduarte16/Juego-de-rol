@@ -1,0 +1,12 @@
+io/Leer.java
+ io.Leer
+Inici/JocDeRol.java
+ Inici.JocDeRol
+Joc/Human.java
+ Joc.Human
+Joc/Player.java
+ Joc.Player
+Joc/Warrior.java
+ Joc.Warrior
+Joc/Alien.java
+ Joc.Alien
