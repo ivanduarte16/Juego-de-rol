@@ -8,7 +8,7 @@ import Joc.Warrior;
 public class JocDeRol {
   public static void main(String[] args) {
 
-    Human humano1 = new Human("Humano1",60,60,700);
+    Human humano1 = new Human("Humano1",60,60,500);
     Alien Alien1 = new Alien("Ete",100,50,400);
     Warrior guerrero1 = new Warrior("Hercules",80,100,500);
     Alien1.attack(humano1);

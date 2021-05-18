@@ -1,9 +1,9 @@
 io/Leer.java
  io.Leer
-Inici/JocDeRol.java
- Inici.JocDeRol
 Joc/Human.java
  Joc.Human
+Inici/JocDeRol.java
+ Inici.JocDeRol
 Joc/Player.java
  Joc.Player
 Joc/Warrior.java
