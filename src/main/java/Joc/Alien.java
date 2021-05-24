@@ -18,6 +18,9 @@ public class Alien extends Player{
       this.setDefensePoints(this.getDefensePoints()-3);
     }
     B.hit(this.getAttackPoints());
+    if (B.getLife()>0){
+      this.hit(B.getAttackPoints());
+    }
     System.out.println();
     System.out.println("DESPUES DEL ATAQUE");
     System.out.println("Atacant: "+this);

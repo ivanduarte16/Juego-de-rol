@@ -1,11 +1,14 @@
 package Joc;
 
+import java.util.ArrayList;
+
 //Atributos
 public abstract class Player {
   private String name;
   private int attackPoints;
   private int defensePoints;
   private int life;
+  private ArrayList<Team> teams;
 
   //Constructor
   public Player(String name, int attackPoints, int defensePoints, int life) {
@@ -13,6 +16,21 @@ public abstract class Player {
     this.setAttackPoints(attackPoints);
     this.setDefensePoints(defensePoints);
     this.setLife(life);
+    teams = new ArrayList<>();
+  }
+
+  public void add (Team t){
+    this.getTeams().add(t);
+    if(!t.getPlayers().contains(this)){
+      t.add(this);
+    }
+  }
+
+  public void remove (Team t){
+    teams.remove(t);
+    if(t.getPlayers().contains(this)){
+      t.remove(this);
+    }
   }
 
   public String getName() {
@@ -33,12 +51,11 @@ public abstract class Player {
 
   @Override
   public String toString() {
-    return  name + " / PA:" + attackPoints + " / PD:" + defensePoints + " / PV:" + life;
+    return  name + " / PA:" + attackPoints + " / PD:" + defensePoints + " / PV:" + life + " ( pertenece a "+teams.size()+" equipos )";
   }
 
   public void attack(Player B){
-    System.out.println();
-    System.out.println("ANTES DEL ATAQUE");
+    System.out.println("ANTES DEL ATAQUE :");
     System.out.println("Atacant: "+this);
     System.out.println("Atacat: "+B);
     System.out.println();
@@ -70,7 +87,6 @@ public abstract class Player {
     this.life = life;
   }
 
-
   public void setName(String name) {
     this.name = name;
   }
@@ -81,5 +97,9 @@ public abstract class Player {
 
   public void setDefensePoints(int defensePoints) {
     this.defensePoints = defensePoints;
+  }
+
+  public ArrayList<Team> getTeams() {
+    return teams;
   }
 }

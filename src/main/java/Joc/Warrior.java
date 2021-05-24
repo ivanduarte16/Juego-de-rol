@@ -10,7 +10,7 @@ public class Warrior extends Human{
   protected void  hit(int attackPoints){
     int ataque = attackPoints - this.getDefensePoints();
     if(ataque<5){
-      System.out.print("El Guerrero reduce el daño a 0");
+      System.out.print("El Guerrero reduce el daño a 0 ");
       ataque=0;
     }
     int vida = this.getLife()-ataque;
