@@ -1,5 +1,7 @@
 package Joc;
 
+import io.Leer;
+
 import java.util.ArrayList;
 
 //Atributos
@@ -9,6 +11,7 @@ public abstract class Player {
   private int defensePoints;
   private int life;
   private ArrayList<Team> teams;
+  private  ArrayList<Item> items;
 
   //Constructor
   public Player(String name, int attackPoints, int defensePoints, int life) {
@@ -17,6 +20,7 @@ public abstract class Player {
     this.setDefensePoints(defensePoints);
     this.setLife(life);
     teams = new ArrayList<>();
+    items = new ArrayList<>();
   }
 
   public void add (Team t){
@@ -49,20 +53,23 @@ public abstract class Player {
     return life;
   }
 
-  @Override
-  public String toString() {
-    return  name + " / PA:" + attackPoints + " / PD:" + defensePoints + " / PV:" + life + " ( pertenece a "+teams.size()+" equipos )";
-  }
-
   public void attack(Player B){
     System.out.println("ANTES DEL ATAQUE :");
     System.out.println("Atacant: "+this);
     System.out.println("Atacat: "+B);
     System.out.println();
     System.out.println("DURANTE EL ATAQUE");
-    B.hit(this.getAttackPoints());
+    int ataque = this.getAttackPoints();
+    for (Item i : this.items){
+      ataque+=i.getAttackBonus();
+    }
+    B.hit(ataque);
     if (B.getLife()>0){
-      this.hit(B.getAttackPoints());
+      int ataqueB = B.getAttackPoints();
+      for (Item i : B.items){
+        ataqueB+=i.getAttackBonus();
+      }
+      this.hit(ataqueB);
     }
     System.out.println();
     System.out.println("DESPUES DEL ATAQUE");
@@ -72,15 +79,27 @@ public abstract class Player {
   }
 
   protected void  hit(int attackPoints){
-    int ataque = attackPoints - this.getDefensePoints();
+    int defensa = this.getDefensePoints();
+    for (Item i: this.items){
+      defensa+= i.getDefenseBonus();
+    }
+    int ataque = attackPoints - defensa;
     int vida = this.getLife()-ataque;
     if(vida<=0){
       System.out.print("El jugador ha muerto");
       this.setLife(0);
     } else {
-      System.out.println(this.getName() + " es golpeado con "+ attackPoints+ " puntos y se defiende con "+this.getDefensePoints()+". Vida: "+this.life+ " - " + ataque+" = "+vida);
+      System.out.println(this.getName() + " es golpeado con "+ attackPoints+ " puntos y se defiende con "+defensa+". Vida: "+this.life+ " - " + ataque+" = "+vida);
       this.setLife(vida);
     }
+  }
+
+  public void addItem(Item i){
+    this.items.add(i);
+  }
+
+  public void removeItem(Item i){
+    this.items.remove(i);
   }
 
   public void setLife(int life) {
@@ -102,4 +121,16 @@ public abstract class Player {
   public ArrayList<Team> getTeams() {
     return teams;
   }
+
+
+
+  @Override
+  public String toString() {
+    String cadena = "";
+    for (Item t : this.items){
+      cadena+=" "+t+"\n";
+    }
+    return  name + " / PA:" + attackPoints + " / PD:" + defensePoints + " / PV:" + life + " ( pertenece a "+teams.size()+" equipos )"+" tiene los items: "+"\n"+cadena;
+  }
+
 }
