@@ -11,7 +11,10 @@ public class Team {
     players = new ArrayList<>();
   }
 
-  public void add(Player p) {
+  public void add(Player p) throws JugadoresRepetidos{
+    if (this.players.contains(p)){
+      throw new JugadoresRepetidos("Error, jugador repetido");
+    }
     players.add(p);
     if (!p.getTeams().contains(this)) {
       p.add(this);
@@ -22,7 +25,10 @@ public class Team {
     return players;
   }
 
-  public void remove(Player p) {
+  public void remove(Player p) throws EquipoJugador {
+    if (!p.getTeams().contains(this)) {
+      throw new EquipoJugador("Este jugador no esta en el equipo");
+    }
     players.remove(p);
     if (p.getTeams().contains(this)) {
       p.remove(this);

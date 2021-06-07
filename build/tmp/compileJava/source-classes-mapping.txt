@@ -1,11 +1,21 @@
 io/Leer.java
  io.Leer
-Inici/JocDeRol.java
- Inici.JocDeRol
+Joc/JugadorMuerto.java
+ Joc.JugadorMuerto
 Joc/Human.java
  Joc.Human
+Joc/Item.java
+ Joc.Item
+Joc/AtacarAsiMismo.java
+ Joc.AtacarAsiMismo
+Joc/EquipoJugador.java
+ Joc.EquipoJugador
 Joc/Team.java
  Joc.Team
+Inici/JocDeRol.java
+ Inici.JocDeRol
+Joc/JugadoresRepetidos.java
+ Joc.JugadoresRepetidos
 Joc/Player.java
  Joc.Player
 Joc/Warrior.java

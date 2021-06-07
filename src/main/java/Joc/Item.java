@@ -5,12 +5,17 @@ public class Item {
   private int attackBonus;
   private int defenseBonus;
 
+  /**
+   * Constructor del objeto
+   * @param name nombre del objeto
+   * @param attackBonus puntos de atauqe del objeto
+   * @param defenseBonus puntos de defensa del objeto
+   */
   public Item(String name, int attackBonus, int defenseBonus) {
     this.setName(name);
     this.setAttackBonus(attackBonus);
     this.setDefenseBonus(defenseBonus);
   }
-
 
   public String getName() {
     return name;
@@ -36,6 +41,9 @@ public class Item {
     this.defenseBonus = defenseBonus;
   }
 
+  /**
+   * @return la informacion del objeto
+   */
   @Override
   public String toString() {
     return " - " + this.name + " BA: " + this.attackBonus + " /" +" BD: " + this.defenseBonus;

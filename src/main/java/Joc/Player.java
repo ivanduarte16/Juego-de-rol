@@ -13,7 +13,6 @@ public abstract class Player {
   private ArrayList<Team> teams;
   private  ArrayList<Item> items;
 
-  //Constructor
   public Player(String name, int attackPoints, int defensePoints, int life) {
     this.setName(name);
     this.setAttackPoints(attackPoints);
@@ -23,18 +22,24 @@ public abstract class Player {
     items = new ArrayList<>();
   }
 
-  public void add (Team t){
-    this.getTeams().add(t);
-    if(!t.getPlayers().contains(this)){
+  /**
+   * Metodo para añadir un jugador a un equipo
+   * @param t es el equipo que le pasamos
+   */
+  public void add (Team t) throws JugadoresRepetidos{
+
+    if(this.teams.contains(t)){
+      throw new JugadoresRepetidos("Error, jugador repetido");
+    }
+    this.teams.add(t);
+    if(!t.getMembers().contains(this)){
       t.add(this);
+      System.out.println("Se ha añadido correctamente el jugador al equipo");
     }
   }
 
-  public void remove (Team t){
-    teams.remove(t);
-    if(t.getPlayers().contains(this)){
-      t.remove(this);
-    }
+  public ArrayList<Item> getItems() {
+    return items;
   }
 
   public String getName() {
@@ -53,7 +58,17 @@ public abstract class Player {
     return life;
   }
 
-  public void attack(Player B){
+  /**
+   * Metodo que se usará para que un jugador ataque a otro
+   * @param B jugador al que queremos atacar
+   */
+  public void attack(Player B) throws JugadorMuerto, AtacarAsiMismo {
+    if (this.getLife()<=0 || B.getLife()<=0){
+      throw new JugadorMuerto("Este jugador la ha palmao");
+    }
+    if (this.equals(B)){
+      throw new AtacarAsiMismo("Este jugador no puede atacarse a si mismo");
+    }
     System.out.println("ANTES DEL ATAQUE :");
     System.out.println("Atacant: "+this);
     System.out.println("Atacat: "+B);
@@ -75,31 +90,61 @@ public abstract class Player {
     System.out.println("DESPUES DEL ATAQUE");
     System.out.println("Atacant: "+this);
     System.out.println("Atacat: "+B);
-    System.out.println();
   }
 
+  /**
+   * Metodo que se utilizara para calcular los puntos de ataque, la defensa, y la vida durante la pelea
+   * @param attackPoints puntos de ataque del jugador
+   */
   protected void  hit(int attackPoints){
     int defensa = this.getDefensePoints();
     for (Item i: this.items){
       defensa+= i.getDefenseBonus();
     }
     int ataque = attackPoints - defensa;
+    if (ataque<0){
+      ataque = 0;
+    }
     int vida = this.getLife()-ataque;
     if(vida<=0){
-      System.out.print("El jugador ha muerto");
+      System.out.print("El jugador "+this.getName()+" ha muerto");
       this.setLife(0);
+      System.out.println();
     } else {
       System.out.println(this.getName() + " es golpeado con "+ attackPoints+ " puntos y se defiende con "+defensa+". Vida: "+this.life+ " - " + ataque+" = "+vida);
       this.setLife(vida);
     }
   }
 
+  /**
+   * Metodo para asignarle un item a un jugador
+   * @param i objeto que queremos asignar
+   */
   public void addItem(Item i){
     this.items.add(i);
   }
 
+  /**
+   * Metodo para eliminar un objeto de un jugador
+   * @param i objeto que queremos eliminar
+   */
   public void removeItem(Item i){
     this.items.remove(i);
+  }
+
+  /**
+   * Metodo para eliminar un jugador de un equipo
+   * @param t equipo del que queremos eliminar el jugador
+   * @throws EquipoJugador exepcion para comprobar si el jugador esta en ese equipo
+   */
+  public void remove (Team t) throws EquipoJugador {
+    if(!t.getPlayers().contains(this)){
+      throw new EquipoJugador("Este jugador no esta en el equipo");
+    }
+    teams.remove(t);
+    if(t.getPlayers().contains(this)){
+      t.remove(this);
+    }
   }
 
   public void setLife(int life) {
@@ -121,8 +166,6 @@ public abstract class Player {
   public ArrayList<Team> getTeams() {
     return teams;
   }
-
-
 
   @Override
   public String toString() {
